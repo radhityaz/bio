@@ -4,152 +4,127 @@ from kivy.uix.label import Label
 from kivy.uix.textinput import TextInput
 from kivy.uix.button import Button
 from kivy.uix.scrollview import ScrollView
+from kivy.uix.gridlayout import GridLayout
 from kivy.uix.popup import Popup
 from kivy.metrics import dp
-from kivy.core.window import Window
+from kivy.graphics import Color, RoundedRectangle
+from kivy.uix.widget import Widget
 
 class KebugaranApp(App):
     def build(self):
-        # Set window size for desktop testing
-        Window.size = (400, 700)
+        self.title = "Cek Kebugaran Harian"
         
         # Main layout
-        main_layout = BoxLayout(orientation='vertical', padding=dp(20), spacing=dp(10))
+        main_layout = BoxLayout(orientation='vertical', padding=dp(20), spacing=dp(15))
         
-        # Title
-        title = Label(
+        # Header
+        header = Label(
             text='CEK KEBUGARAN HARIAN',
             font_size=dp(24),
             size_hint_y=None,
-            height=dp(50),
-            bold=True
+            height=dp(60),
+            color=(0.2, 0.6, 0.8, 1)
         )
-        main_layout.add_widget(title)
+        main_layout.add_widget(header)
         
         # Scroll view for inputs
         scroll = ScrollView()
-        input_layout = BoxLayout(orientation='vertical', spacing=dp(15), size_hint_y=None)
+        input_layout = GridLayout(cols=1, spacing=dp(10), size_hint_y=None)
         input_layout.bind(minimum_height=input_layout.setter('height'))
         
         # Input fields
         self.inputs = {}
         
-        # Usia
-        usia_layout = BoxLayout(orientation='vertical', size_hint_y=None, height=dp(80))
-        usia_layout.add_widget(Label(text='Usia (tahun):', size_hint_y=None, height=dp(30), halign='left'))
-        self.inputs['usia'] = TextInput(
-            multiline=False,
-            input_filter='int',
-            size_hint_y=None,
-            height=dp(40)
-        )
-        usia_layout.add_widget(self.inputs['usia'])
-        input_layout.add_widget(usia_layout)
+        fields = [
+            ('usia', 'Usia (tahun)', 'number'),
+            ('berat', 'Berat badan (kg)', 'number'),
+            ('tinggi', 'Tinggi badan (cm)', 'number'),
+            ('detak_jantung', 'Detak jantung istirahat (BPM)', 'number'),
+            ('langkah', 'Jumlah langkah hari ini', 'number'),
+            ('nyeri', 'Skor nyeri otot (1-10)', 'number')
+        ]
         
-        # Berat badan
-        berat_layout = BoxLayout(orientation='vertical', size_hint_y=None, height=dp(80))
-        berat_layout.add_widget(Label(text='Berat badan (kg):', size_hint_y=None, height=dp(30), halign='left'))
-        self.inputs['berat'] = TextInput(
-            multiline=False,
-            input_filter='int',
-            size_hint_y=None,
-            height=dp(40)
-        )
-        berat_layout.add_widget(self.inputs['berat'])
-        input_layout.add_widget(berat_layout)
-        
-        # Tinggi badan
-        tinggi_layout = BoxLayout(orientation='vertical', size_hint_y=None, height=dp(80))
-        tinggi_layout.add_widget(Label(text='Tinggi badan (cm):', size_hint_y=None, height=dp(30), halign='left'))
-        self.inputs['tinggi'] = TextInput(
-            multiline=False,
-            input_filter='int',
-            size_hint_y=None,
-            height=dp(40)
-        )
-        tinggi_layout.add_widget(self.inputs['tinggi'])
-        input_layout.add_widget(tinggi_layout)
-        
-        # Detak jantung
-        detak_layout = BoxLayout(orientation='vertical', size_hint_y=None, height=dp(80))
-        detak_layout.add_widget(Label(text='Detak jantung istirahat (BPM):', size_hint_y=None, height=dp(30), halign='left'))
-        self.inputs['detak_jantung'] = TextInput(
-            multiline=False,
-            input_filter='int',
-            size_hint_y=None,
-            height=dp(40)
-        )
-        detak_layout.add_widget(self.inputs['detak_jantung'])
-        input_layout.add_widget(detak_layout)
-        
-        # Langkah
-        langkah_layout = BoxLayout(orientation='vertical', size_hint_y=None, height=dp(80))
-        langkah_layout.add_widget(Label(text='Jumlah langkah hari ini:', size_hint_y=None, height=dp(30), halign='left'))
-        self.inputs['langkah'] = TextInput(
-            multiline=False,
-            input_filter='int',
-            size_hint_y=None,
-            height=dp(40)
-        )
-        langkah_layout.add_widget(self.inputs['langkah'])
-        input_layout.add_widget(langkah_layout)
-        
-        # Nyeri otot
-        nyeri_layout = BoxLayout(orientation='vertical', size_hint_y=None, height=dp(80))
-        nyeri_layout.add_widget(Label(text='Skor nyeri otot (1-10):', size_hint_y=None, height=dp(30), halign='left'))
-        self.inputs['nyeri'] = TextInput(
-            multiline=False,
-            input_filter='int',
-            size_hint_y=None,
-            height=dp(40)
-        )
-        nyeri_layout.add_widget(self.inputs['nyeri'])
-        input_layout.add_widget(nyeri_layout)
+        for field_id, label_text, input_type in fields:
+            # Container for each input
+            field_container = BoxLayout(orientation='vertical', size_hint_y=None, height=dp(80))
+            
+            # Label
+            label = Label(
+                text=label_text,
+                size_hint_y=None,
+                height=dp(30),
+                text_size=(None, None),
+                halign='left',
+                color=(0.3, 0.3, 0.3, 1)
+            )
+            
+            # Input
+            text_input = TextInput(
+                multiline=False,
+                input_type=input_type,
+                size_hint_y=None,
+                height=dp(40),
+                background_color=(0.95, 0.95, 0.95, 1),
+                foreground_color=(0.2, 0.2, 0.2, 1),
+                cursor_color=(0.2, 0.6, 0.8, 1)
+            )
+            
+            self.inputs[field_id] = text_input
+            
+            field_container.add_widget(label)
+            field_container.add_widget(text_input)
+            input_layout.add_widget(field_container)
         
         scroll.add_widget(input_layout)
         main_layout.add_widget(scroll)
         
         # Button
-        check_button = Button(
+        btn_layout = BoxLayout(size_hint_y=None, height=dp(60), padding=(0, dp(10)))
+        
+        check_btn = Button(
             text='CEK KEBUGARAN',
             size_hint_y=None,
             height=dp(50),
-            background_color=(0.2, 0.6, 0.8, 1)
+            background_color=(0.2, 0.6, 0.8, 1),
+            color=(1, 1, 1, 1)
         )
-        check_button.bind(on_press=self.cek_kebugaran)
-        main_layout.add_widget(check_button)
+        check_btn.bind(on_press=self.cek_kebugaran)
+        
+        btn_layout.add_widget(check_btn)
+        main_layout.add_widget(btn_layout)
         
         return main_layout
     
     def cek_kebugaran(self, instance):
         try:
-            # Validasi input
-            for key, input_field in self.inputs.items():
-                if not input_field.text.strip():
-                    self.show_popup('Error', f'Mohon isi {key}!')
-                    return
+            # Get input values
+            usia = int(self.inputs['usia'].text or 0)
+            berat = int(self.inputs['berat'].text or 0)
+            tinggi = int(self.inputs['tinggi'].text or 0)
+            detak_jantung = int(self.inputs['detak_jantung'].text or 0)
+            langkah = int(self.inputs['langkah'].text or 0)
+            nyeri = int(self.inputs['nyeri'].text or 0)
             
-            # Ambil data input
-            usia = int(self.inputs['usia'].text)
-            berat = int(self.inputs['berat'].text)
-            tinggi = int(self.inputs['tinggi'].text)
-            detak_jantung = int(self.inputs['detak_jantung'].text)
-            langkah = int(self.inputs['langkah'].text)
-            nyeri = int(self.inputs['nyeri'].text)
-            
-            # Validasi range
-            if not (1 <= nyeri <= 10):
-                self.show_popup('Error', 'Skor nyeri harus antara 1-10!')
+            # Validation
+            if not all([usia, berat, tinggi, detak_jantung]):
+                self.show_popup('Error', 'Mohon isi semua field yang diperlukan!')
                 return
             
-            if tinggi <= 0 or berat <= 0:
-                self.show_popup('Error', 'Tinggi dan berat harus lebih dari 0!')
+            if tinggi <= 0:
+                self.show_popup('Error', 'Tinggi badan harus lebih dari 0!')
+                return
+                
+            if nyeri < 1 or nyeri > 10:
+                self.show_popup('Error', 'Skor nyeri harus antara 1-10!')
                 return
             
             # Kalkulasi BMI
             bmi = berat / ((tinggi/100) ** 2)
             
-            # Analisis BMI
+            # Hasil analisis
+            hasil = "=== HASIL ANALISIS ===\n\n"
+            
+            # 1. BMI
             if bmi < 18.5:
                 kategori_bmi = "Kurus"
             elif 18.5 <= bmi < 25:
@@ -158,43 +133,31 @@ class KebugaranApp(App):
                 kategori_bmi = "Gemuk"
             else:
                 kategori_bmi = "Obesitas"
+            hasil += f"📊 BMI Anda: {bmi:.1f} ({kategori_bmi})\n\n"
             
-            # Analisis detak jantung
+            # 2. Kebugaran jantung
             if detak_jantung < 60:
                 status_jantung = "Sangat baik (atletik)"
             elif 60 <= detak_jantung < 80:
                 status_jantung = "Baik"
             else:
                 status_jantung = "Perlu perhatian"
+            hasil += f"❤️ Detak jantung istirahat: {detak_jantung} BPM ({status_jantung})\n\n"
             
-            # Analisis langkah
+            # 3. Saran langkah
             target_langkah = 8000
             if langkah < target_langkah:
-                status_langkah = f"Kurang {target_langkah - langkah} dari target 8.000"
+                hasil += f"🚶 Langkah hari ini: {langkah}\n   Kurang {target_langkah - langkah} dari target 8.000\n\n"
             else:
-                status_langkah = "Target tercapai!"
+                hasil += f"🚶 Langkah hari ini: {langkah}\n   Target tercapai! 🎉\n\n"
             
-            # Analisis nyeri
+            # 4. Rekomendasi nyeri
             if nyeri <= 3:
-                status_nyeri = "Nyeri rendah - Lanjutkan aktivitas normal!"
+                hasil += "💪 Nyeri otot rendah\n   Lanjutkan aktivitas normal!"
             elif 4 <= nyeri <= 6:
-                status_nyeri = "Nyeri sedang - Lakukan peregangan 5 menit"
+                hasil += "⚠️ Nyeri otot sedang\n   Lakukan peregangan 5 menit"
             else:
-                status_nyeri = "Nyeri tinggi - Istirahatkan otot + kompres hangat!"
-            
-            # Buat hasil
-            hasil = f"""HASIL ANALISIS KEBUGARAN
-
-📊 BMI: {bmi:.1f} ({kategori_bmi})
-
-❤️ Detak Jantung: {detak_jantung} BPM
-   Status: {status_jantung}
-
-🚶 Langkah: {langkah}
-   {status_langkah}
-
-💪 Nyeri Otot: {nyeri}/10
-   {status_nyeri}"""
+                hasil += "🛑 Nyeri otot tinggi\n   Istirahatkan otot + kompres hangat!"
             
             self.show_popup('Hasil Kebugaran', hasil)
             
@@ -204,33 +167,37 @@ class KebugaranApp(App):
             self.show_popup('Error', f'Terjadi kesalahan: {str(e)}')
     
     def show_popup(self, title, content):
-        popup_layout = BoxLayout(orientation='vertical', padding=dp(10), spacing=dp(10))
+        # Create popup content
+        popup_layout = BoxLayout(orientation='vertical', padding=dp(20), spacing=dp(15))
         
         # Content label
         content_label = Label(
             text=content,
             text_size=(dp(300), None),
             halign='left',
-            valign='top'
+            valign='top',
+            color=(0.2, 0.2, 0.2, 1)
         )
         popup_layout.add_widget(content_label)
         
         # Close button
-        close_button = Button(
+        close_btn = Button(
             text='Tutup',
             size_hint_y=None,
-            height=dp(40)
+            height=dp(40),
+            background_color=(0.2, 0.6, 0.8, 1)
         )
-        popup_layout.add_widget(close_button)
         
-        # Create popup
         popup = Popup(
             title=title,
             content=popup_layout,
-            size_hint=(0.9, 0.7)
+            size_hint=(0.9, 0.7),
+            auto_dismiss=True
         )
         
-        close_button.bind(on_press=popup.dismiss)
+        close_btn.bind(on_press=popup.dismiss)
+        popup_layout.add_widget(close_btn)
+        
         popup.open()
 
 if __name__ == '__main__':

@@ -1,102 +1,41 @@
-# 📱 Aplikasi Cek Kebugaran Harian
+# Aplikasi Cek Kebugaran Harian
 
-[![Build APK](https://github.com/username/repo/actions/workflows/build-apk.yml/badge.svg)](https://github.com/username/repo/actions/workflows/build-apk.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-[![Kivy](https://img.shields.io/badge/Kivy-2.3.0-green.svg)](https://kivy.org/)
+Aplikasi mobile untuk mengecek kebugaran harian berdasarkan BMI, detak jantung, langkah harian, dan tingkat nyeri otot.
 
-Aplikasi mobile cross-platform untuk mengecek kebugaran harian berdasarkan BMI, detak jantung, jumlah langkah, dan tingkat nyeri otot. Dibangun dengan Python Kivy dan dilengkapi CI/CD pipeline untuk build APK otomatis.
+## Fitur
 
-## ✨ Fitur
+- ✅ Kalkulasi BMI dengan kategori
+- ❤️ Analisis detak jantung istirahat
+- 🚶 Tracking langkah harian
+- 💪 Evaluasi nyeri otot
+- 📱 UI yang user-friendly untuk mobile
+- 🎯 Rekomendasi kesehatan personal
 
-- 📊 **Kalkulasi BMI** dengan kategori (Kurus, Normal, Gemuk, Obesitas)
-- ❤️ **Analisis detak jantung** istirahat dengan status kesehatan
-- 🚶 **Tracking langkah harian** dengan target 8.000 langkah
-- 💪 **Evaluasi nyeri otot** dengan rekomendasi perawatan
-- 📱 **Interface mobile-friendly** dengan desain modern
-- 🎯 **Rekomendasi kesehatan** personal berdasarkan data input
-- 🤖 **Auto-build APK** dengan GitHub Actions
-- 🔄 **Cross-platform** (Android, iOS, Windows, macOS, Linux)
+## Perbaikan dari Kode Asli
 
-## 🚀 Quick Start
+1. **UI Modern**: Menggunakan Kivy framework dengan desain yang responsif
+2. **Validasi Input**: Pengecekan input yang lebih robust
+3. **Error Handling**: Penanganan error yang lebih baik
+4. **Mobile-Ready**: Optimized untuk layar sentuh
+5. **Visual Feedback**: Popup hasil dengan emoji dan formatting yang menarik
 
-### Untuk Pengguna (Download APK)
+## Cara Menjalankan (Development)
 
-1. **Download APK** dari [GitHub Releases](https://github.com/username/repo/releases)
-2. **Install di Android** (Enable Unknown Sources)
-3. **Buka aplikasi** dan mulai cek kebugaran!
-
-### Untuk Developer (Build dari Source)
-
-```bash
-# Clone repository
-git clone https://github.com/username/repo.git
-cd repo
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Jalankan aplikasi
-python main.py
-```
-
-### Build APK dengan GitHub Actions
-
-```bash
-# Setup repository (otomatis)
-./setup_github.bat
-
-# Atau manual push untuk trigger build
-git add .
-git commit -m "Trigger build"
-git push origin main
-```
-
-📖 **Panduan lengkap:** [QUICK_START.md](QUICK_START.md) | [GITHUB_ACTIONS_TUTORIAL.md](GITHUB_ACTIONS_TUTORIAL.md)
-
-## 🛠️ Framework yang Digunakan
-
-**Kivy** - Framework Python terbaik untuk pengembangan aplikasi mobile cross-platform:
-- ✅ **Cross-platform** (Android, iOS, Windows, macOS, Linux)
-- ⚡ **Native performance** dengan OpenGL rendering
-- 🎨 **Rich UI components** dan animasi
-- 👆 **Touch-friendly interface** dengan gesture support
-- 📦 **Easy deployment** ke mobile devices
-- 🔧 **Mature ecosystem** dengan dokumentasi lengkap
-
-## 💻 Instalasi dan Menjalankan
-
-### 1. Persiapan Environment
-
-```bash
-# Install Python 3.8+ jika belum ada
-# Buat virtual environment (opsional tapi direkomendasikan)
-python -m venv venv
-
-# Aktifkan virtual environment
-# Windows:
-venv\Scripts\activate
-# Linux/Mac:
-source venv/bin/activate
-```
-
-### 2. Install Dependencies
-
+### Prerequisites
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Menjalankan Aplikasi
-
+### Jalankan Aplikasi
 ```bash
 python main.py
 ```
 
 ## Build APK untuk Android
 
-### Persiapan Build Environment
+### Method 1: Menggunakan Buildozer (Linux/WSL)
 
-1. **Install Buildozer** (untuk Linux/WSL):
+1. **Install Buildozer**:
 ```bash
 pip install buildozer
 ```
@@ -107,21 +46,16 @@ sudo apt update
 sudo apt install -y git zip unzip openjdk-8-jdk python3-pip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
 ```
 
-### Build APK
-
+3. **Build APK**:
 ```bash
-# Inisialisasi buildozer (hanya sekali)
-buildozer android debug
-
-# Build APK
 buildozer android debug
 ```
 
-File APK akan tersedia di folder `bin/`
+4. **APK akan tersedia di**: `bin/kebugaranharian-1.0-arm64-v8a-debug.apk`
 
-## Alternatif Build dengan GitHub Actions
+### Method 2: Menggunakan GitHub Actions (Recommended)
 
-Untuk build otomatis, Anda bisa menggunakan GitHub Actions. Buat file `.github/workflows/build.yml`:
+Untuk build otomatis, gunakan GitHub Actions dengan workflow berikut:
 
 ```yaml
 name: Build APK
@@ -148,7 +82,7 @@ jobs:
       run: |
         sudo apt update
         sudo apt install -y git zip unzip openjdk-8-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
-        pip install buildozer
+        pip install buildozer cython
     
     - name: Build APK
       run: buildozer android debug
@@ -160,66 +94,58 @@ jobs:
         path: bin/*.apk
 ```
 
-## Struktur Aplikasi
+### Method 3: Menggunakan Google Colab
+
+1. Buka Google Colab
+2. Upload semua file project
+3. Jalankan:
+
+```python
+!apt update
+!apt install -y git zip unzip openjdk-8-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev
+!pip install buildozer cython
+!buildozer android debug
+```
+
+## Struktur Project
 
 ```
 bio/
-├── main.py              # File utama aplikasi Kivy
-├── CekKebugaranHarian.py # Script Python original
-├── requirements.txt      # Dependencies Python
-├── buildozer.spec       # Konfigurasi build Android
+├── main.py              # Aplikasi utama dengan UI Kivy
+├── CekKebugaranHarian.py # Kode asli (untuk referensi)
+├── buildozer.spec       # Konfigurasi build APK
+├── requirements.txt     # Dependencies Python
 └── README.md           # Dokumentasi ini
 ```
 
-## Cara Menggunakan Aplikasi
+## Konfigurasi APK
 
-1. **Buka aplikasi**
-2. **Isi data berikut:**
-   - Usia (tahun)
-   - Berat badan (kg)
-   - Tinggi badan (cm)
-   - Detak jantung istirahat (BPM)
-   - Jumlah langkah hari ini
-   - Skor nyeri otot (1-10)
-3. **Tekan tombol "CEK KEBUGARAN"**
-4. **Lihat hasil analisis** yang mencakup:
-   - Status BMI
-   - Kondisi detak jantung
-   - Progress langkah harian
-   - Rekomendasi untuk nyeri otot
+- **Package Name**: org.example.kebugaranharian
+- **Version**: 1.0
+- **Target API**: 31
+- **Min API**: 21
+- **Architecture**: arm64-v8a, armeabi-v7a
+- **Orientation**: Portrait
 
 ## Troubleshooting
 
-### Error saat install Kivy
-```bash
-# Jika ada error, coba install dependencies sistem:
-# Ubuntu/Debian:
-sudo apt install python3-dev
+### Error: "Command failed: gradlew assembleDebug"
+- Pastikan Java 8 terinstall
+- Cek koneksi internet untuk download dependencies
 
-# Windows: Install Microsoft Visual C++ Build Tools
+### Error: "No module named 'kivy'"
+```bash
+pip install kivy
 ```
 
-### Build APK gagal
-- Pastikan menggunakan Linux atau WSL
-- Pastikan semua dependencies sistem terinstall
-- Cek log error di `.buildozer/`
+### Build terlalu lama
+- Gunakan GitHub Actions atau Google Colab
+- Pastikan RAM minimal 4GB
 
-## Pengembangan Lanjutan
+## Kontribusi
 
-### Fitur yang bisa ditambahkan:
-- 📊 Grafik progress harian/mingguan
-- 💾 Penyimpanan data lokal
-- 🔔 Notifikasi reminder
-- 🎨 Tema dan customization
-- 📤 Export data ke CSV
-- 🏆 Achievement system
-
-### Optimasi:
-- Tambahkan validasi input yang lebih robust
-- Implementasi database SQLite
-- Tambahkan unit tests
-- Optimasi performa UI
+Silakan buat pull request untuk perbaikan atau fitur baru!
 
 ## Lisensi
 
-MIT License - Bebas digunakan untuk keperluan personal dan komersial.
+MIT License - bebas digunakan untuk keperluan apapun.
