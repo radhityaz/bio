@@ -120,12 +120,5 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
-    - name: Upload to Google Play (if release and secrets available)
-      if: github.event.inputs.release_type == 'release' && secrets.GOOGLE_PLAY_SERVICE_ACCOUNT != ''
-      uses: r0adkll/upload-google-play@v1
-      with:
-        serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
-        packageName: org.example.cekkebugaranharian
-        releaseFiles: bin/*-release.apk
-        track: internal
-        status: draft
+    # Google Play upload step removed - can be added later if needed
+    # Requires GOOGLE_PLAY_SERVICE_ACCOUNT secret to be configured
