@@ -121,7 +121,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
     - name: Upload to Google Play (if release and secrets available)
-      if: github.event.inputs.release_type == 'release' && secrets.GOOGLE_PLAY_SERVICE_ACCOUNT
+      if: github.event.inputs.release_type == 'release' && secrets.GOOGLE_PLAY_SERVICE_ACCOUNT != ''
       uses: r0adkll/upload-google-play@v1
       with:
         serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
